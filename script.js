@@ -20,15 +20,13 @@ $(document).ready(initializeApp);
  * ];
  */
 student_array = [
-    {
-    }
-]
+];
 
 class studentObj {
-    constucter(studentName, courseName, grade) {
-        this.studentName = "";
-        this.courseName = "";
-        this.grade = "";
+    constructor(student, course, grade) {
+        this.studentName = student;
+        this.courseName = course;
+        this.studentGrade = grade;
     }
 }
 
@@ -60,9 +58,8 @@ function addClickHandlersToElements(){
        none
  */
 function handleAddClicked(){
-    console.log("added");
     addStudent();
-    clearAddStudentFormInputs();
+    
 }
 /***************************************************************************************************
  * handleCancelClicked - Event Handler when user clicks the cancel button, should clear out student form
@@ -71,7 +68,18 @@ function handleAddClicked(){
  * @calls: clearAddStudentFormInputs
  */
 function handleCancelClick(){
-    console.log("canceled");
+    clearAddStudentFormInputs();
+}
+/***************************************************************************************************
+ * handleDeleteClicked - Event Handler when user clicks the delete button
+ * @returns: {undefined}none
+ * @calls: deleteStudent
+ */
+function handleDeleteClicked(){
+  console.log("clicked");
+  var deleteClick   = $(this);
+  deleteStudent(deleteClick);
+
 }
 /***************************************************************************************************
  * addStudent - creates a student objects based on input fields in the form and adds the object to global student array
@@ -80,10 +88,30 @@ function handleCancelClick(){
  * @calls clearAddStudentFormInputs, updateStudentList
  */
 function addStudent(){
-    var studentobj = new studentObj();
-         student_array.push(studentObj);
-    console.log("studentAdded");
+    var currentStudent = $('#studentName').val(); //Grabs value from the input fields
+    var course = $('#course').val();
+    var grade  = $('#studentGrade').val();
+    clearAddStudentFormInputs(); //clears value from input fields
+
+
+    var student = new studentObj(currentStudent, course, grade); //Creates new student object
+         student_array.push(student); //pushes new student into student array
+         updateStudentList(student_array);
+         $('.delete').click(handleDeleteClicked)
 }
+/***************************************************************************************************
+ * deleteStudent - deletes the row clicked from student table by removing the current row value from the array
+ * @param deleteClick the value of the row clicked 
+ * @return {undefined}
+ */
+
+ function deleteStudent (deleteClick) {
+     debugger;
+     console.log(deleteClick);
+    rowDeleted  = deleteClick.find('attr', 'row');
+    deleteClick.parent().remove();  
+    student_array.splice(rowDeleted, 1);
+ }
 /***************************************************************************************************
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
@@ -99,19 +127,53 @@ function clearAddStudentFormInputs(){
  * into the .student_list tbody
  * @param {object} studentObj a single student object with course, name, and grade inside
  */
-function renderStudentOnDom(){
+function renderStudentOnDom(student, index){
+    
+var newRow = $('<tr>', {
+    'row' : ' ' + index + '',
+});
+var nameField = $('<td>');
+var courseField = $('<td>');
+var gradeField = $('<td>');
+var deleteButton = $('<button>', {
+    'class': "delete btn btn-danger",
+    'text': 'delete',
+    'row' : ' ' + index + '',
+    css: {
+        'color': 'white'
+     }
+}
+)
+var name = student.studentName;
+var grade = student.studentGrade;
+var course = student.courseName;
+newName = nameField.append(name);
+newCourse = courseField.append(course);
+newGrade = gradeField.append(grade);
+newButton = 
+newRow.append(newName);
+newRow.append(newCourse);
+newRow.append(newGrade);
+newRow.append(deleteButton);
+$('.student-list tbody').append(newRow);
 }
 
 /***************************************************************************************************
- * updateStudentList - centralized function to update the average and call student list update
+ * updateStudentList - centralized function to update the average and call s`tu`dent list update
  * @param students {array} the array of student objects
  * @returns {undefined} none
  * @calls renderStudentOnDom, calculateGradeAverage, renderGradeAverage
  */
-function updateStudentList(student_array){
-    renderStudentOnDom();
-    calculateGradeAverage();
-    renderGradeAverage();
+function updateStudentList(students){
+    debugger;
+    $('.student-list tbody').empty();
+    for(currentIndex = 0; currentIndex < students.length; currentIndex++) {
+     var index = currentIndex;
+     var student = students[index];
+    renderStudentOnDom(student, index);
+    }
+   average = calculateGradeAverage(students); // calculates grade average of all students
+    renderGradeAverage(average); // appends grade average of all students
   
 }
 /***************************************************************************************************
@@ -119,14 +181,25 @@ function updateStudentList(student_array){
  * @param: {array} students  the array of student objects
  * @returns {number}
  */
-function calculateGradeAverage(){
+function calculateGradeAverage(students){
+    var totalGrade = null;
+    var averageGrade = null;
+    var average = null;
+    for (var index = 0; index < students.length; index++) {
+        totalGrade += parseInt(students[index].studentGrade); 
+        averageGrade = Math.round(totalGrade / students.length);
+        average = averageGrade.toFixed(0);
+    }
+    return average;
+
 }
 /***************************************************************************************************
  * renderGradeAverage - updates the on-page grade average
  * @param: {number} average    the grade average
  * @returns {undefined} none
  */
-function renderGradeAverage(){
+function renderGradeAverage(average){
+    $(".page-header span").text(average);
 }
 
 
