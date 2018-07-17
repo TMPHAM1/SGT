@@ -49,6 +49,7 @@ function initializeApp(){
 function addClickHandlersToElements(){
     $('.btn-primary').click(handleAddClicked);
     $('.cancel').click(handleCancelClick);
+    $('.get').click(handleGetDataClick)
 }
 
 /***************************************************************************************************
@@ -75,12 +76,21 @@ function handleCancelClick(){
  * @returns: {undefined}none
  * @calls: deleteStudent
  */
-function handleDeleteClicked(){
+function handleDeleteClick(){
   console.log("clicked");
   var deleteClick   = $(this);
   deleteStudent(deleteClick);
 
 }
+/***************************************************************************************************
+ * handleGetDataClicked - Event Handler when user clicks the getData button
+ * @returns: {undefined}none
+ * @calls: getData 
+ */
+function handleGetDataClick() {
+    getData();
+}
+
 /***************************************************************************************************
  * addStudent - creates a student objects based on input fields in the form and adds the object to global student array
  * @param {undefined} none
@@ -97,7 +107,7 @@ function addStudent(){
     var student = new studentObj(currentStudent, course, grade); //Creates new student object
          student_array.push(student); //pushes new student into student array
          updateStudentList(student_array);
-         $('.delete').click(handleDeleteClicked)
+         $('.delete').click(handleDeleteClick)
 }
 /***************************************************************************************************
  * deleteStudent - deletes the row clicked from student table by removing the current row value from the array
@@ -106,7 +116,6 @@ function addStudent(){
  */
 
  function deleteStudent (deleteClick) {
-     debugger;
      console.log(deleteClick);
     rowDeleted  = deleteClick.find('attr', 'row');
     deleteClick.parent().remove();  
@@ -142,7 +151,9 @@ var deleteButton = $('<button>', {
     css: {
         'color': 'white'
      }
+     
 }
+
 )
 var name = student.studentName;
 var grade = student.studentGrade;
@@ -165,7 +176,6 @@ $('.student-list tbody').append(newRow);
  * @calls renderStudentOnDom, calculateGradeAverage, renderGradeAverage
  */
 function updateStudentList(students){
-    debugger;
     $('.student-list tbody').empty();
     for(currentIndex = 0; currentIndex < students.length; currentIndex++) {
      var index = currentIndex;
@@ -201,5 +211,26 @@ function calculateGradeAverage(students){
 function renderGradeAverage(average){
     $(".page-header span").text(average);
 }
+/***************************************************************************************************
+ *getData - makes a call using AJAX to learningFuze to get data
+ * @returns: {undefined}none
+ * @calls: getData 
+ * 
+ */
+function getData() {
+    debugger;
+    var ajaxOption = {
+        api_key: 's-apis.learningfuze.com/sgt/get',
+        datatype: 'JSON',
+        method: 'post',
+        sucesss: function(response) { 
+            console.log(response);
 
+            
+        },
+    }
+
+
+    $.ajax( ajaxOption);
+}
 
