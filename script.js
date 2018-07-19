@@ -24,9 +24,9 @@ student_array = [
 
 class studentObj {
     constructor(student, course, grade) {
-        this.studentName = student;
-        this.courseName = course;
-        this.studentGrade = grade;
+        this.name = student;
+        this.course= course;
+        this.grade= grade;
     }
 }
 
@@ -38,6 +38,7 @@ class studentObj {
 */
 function initializeApp(){
     addClickHandlersToElements();
+    getData();  
 }
 
 /***************************************************************************************************
@@ -49,7 +50,8 @@ function initializeApp(){
 function addClickHandlersToElements(){
     $('.btn-primary').click(handleAddClicked);
     $('.cancel').click(handleCancelClick);
-    $('.get').click(handleGetDataClick)
+    $('.get').click(handleGetDataClick);
+   
 }
 
 /***************************************************************************************************
@@ -78,7 +80,7 @@ function handleCancelClick(){
  */
 function handleDeleteClick(){
   console.log("clicked");
-  var deleteClick   = $(this);
+  var deleteClick = $(this);
   deleteStudent(deleteClick);
 
 }
@@ -105,9 +107,12 @@ function addStudent(){
 
 
     var student = new studentObj(currentStudent, course, grade); //Creates new student object
-         student_array.push(student); //pushes new student into student array
+    addData(student);
+        student_array.push(student);
+         //pushes new student into student array
          updateStudentList(student_array);
-         $('.delete').click(handleDeleteClick)
+         $('.delete').click(handleDeleteClick);
+         
 }
 /***************************************************************************************************
  * deleteStudent - deletes the row clicked from student table by removing the current row value from the array
@@ -116,10 +121,22 @@ function addStudent(){
  */
 
  function deleteStudent (deleteClick) {
-     console.log(deleteClick);
-    rowDeleted  = deleteClick.find('attr', 'row');
-    deleteClick.parent().remove();  
-    student_array.splice(rowDeleted, 1);
+     debugger;
+    rowDeleted  = deleteClick.find('attr', 'row'); // change into a numeric value 
+    rowValue = parseInt(rowDeleted.context.attributes[1].nodeValue);
+    var deleted = student_array[rowValue];
+    var deleteId= deleted.id;
+    console.log(deleteId);
+    deleteClick.parent().remove(); 
+    deleteData(deleted); 
+    student_array.splice(rowValue, 1);  
+    deleteData(deleteId);
+
+    updateStudentList(student_array);
+    $('.delete').click(handleDeleteClick);
+    // average = calculateGradeAverage(student_array); // calculates grade average of all students
+    // renderGradeAverage(average); 
+
  }
 /***************************************************************************************************
  * clearAddStudentForm - clears out the form values based on inputIds variable
@@ -139,7 +156,7 @@ function clearAddStudentFormInputs(){
 function renderStudentOnDom(student, index){
     
 var newRow = $('<tr>', {
-    'row' : ' ' + index + '',
+    'row' : ' '+index+'',
 });
 var nameField = $('<td>');
 var courseField = $('<td>');
@@ -155,9 +172,9 @@ var deleteButton = $('<button>', {
 }
 
 )
-var name = student.studentName;
-var grade = student.studentGrade;
-var course = student.courseName;
+var name = student.name;
+var grade = student.grade;
+var course = student.course;
 newName = nameField.append(name);
 newCourse = courseField.append(course);
 newGrade = gradeField.append(grade);
@@ -177,12 +194,12 @@ $('.student-list tbody').append(newRow);
  */
 function updateStudentList(students){
     $('.student-list tbody').empty();
-    for(currentIndex = 0; currentIndex < students.length; currentIndex++) {
+    for(var currentIndex = 0; currentIndex < students.length; currentIndex++) {
      var index = currentIndex;
      var student = students[index];
     renderStudentOnDom(student, index);
     }
-   average = calculateGradeAverage(students); // calculates grade average of all students
+   var average = calculateGradeAverage(students); // calculates grade average of all students
     renderGradeAverage(average); // appends grade average of all students
   
 }
@@ -196,7 +213,7 @@ function calculateGradeAverage(students){
     var averageGrade = null;
     var average = null;
     for (var index = 0; index < students.length; index++) {
-        totalGrade += parseInt(students[index].studentGrade); 
+        totalGrade += parseInt(students[index].grade); 
         averageGrade = Math.round(totalGrade / students.length);
         average = averageGrade.toFixed(0);
     }
@@ -214,23 +231,91 @@ function renderGradeAverage(average){
 /***************************************************************************************************
  *getData - makes a call using AJAX to learningFuze to get data
  * @returns: {undefined}none
- * @calls: getData 
  * 
  */
 function getData() {
-    debugger;
-    var ajaxOption = {
-        api_key: 's-apis.learningfuze.com/sgt/get',
-        datatype: 'JSON',
-        method: 'post',
-        sucesss: function(response) { 
-            console.log(response);
+    var the_data = {
+        api_key:'WkA2ZLjZlZ',
+        };
+        var ajaxOptions = {
+            dataType: 'json',
+            data: the_data,
+            method: 'POST',
+            url: 'https://s-apis.learningfuze.com/sgt/get',
+            success: function (response) {
+                console.log(response);
+                debugger;
+                var responseArray = response.data;
+                console.log(responseArray);
+                student_array = responseArray;
 
-            
-        },
+                updateStudentList(student_array);
+                $('.delete').click(handleDeleteClick);
+                },
+            error: function () {
+                $('errorModal').modal('toggle');
+                console.log('error');
+            }
+        }
+        $.ajax(ajaxOptions);
     }
 
-
-    $.ajax( ajaxOption);
-}
-
+/***************************************************************************************************
+ *addData - makes a call using AJAX and adds data to server
+ * @returns: {undefined}none
+ * 
+ */
+function addData(student) {
+    var the_data = {
+        api_key:'WkA2ZLjZlZ',
+        name: student.name, 
+        course: student.course,
+        grade: student.grade,
+        };
+        var ajaxOptions = {
+            dataType: 'json',
+            data: the_data,
+            method: 'POST',
+            url: 'https://s-apis.learningfuze.com/sgt/create',
+            success: function (response) {
+                console.log(response);
+               // student_array[student_array.length-1].id = response.new_id;
+                debugger;
+                },
+            error: function () {
+                console.log('error');
+            }
+        }
+        $.ajax(ajaxOptions);
+    }
+/***************************************************************************************************
+ *deleteData - deletes from server 
+ * @returns: {undefined}none
+ * 
+ */
+function deleteData(studentId) {
+        debugger;
+        // var the_data = {
+        // api_key:'WkA2ZLjZlZ',
+        // id: studentId,
+        // };
+        var ajaxOptions = {
+            dataType: 'json',
+            data: {
+                api_key:'WkA2ZLjZlZ',
+                student_id: studentId,
+                },
+            method: 'POST',
+            url: 'https://s-apis.learningfuze.com/sgt/delete',
+            success: function (response) {
+                console.log(response);
+                console.log("removed");
+                console.log(studentId);
+                },
+            error: function () {
+                $('errorModal').modal('show');
+                console.log('error');
+            }
+        }
+        $.ajax(ajaxOptions);
+    }
