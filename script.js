@@ -169,13 +169,13 @@ var deleteButton = $('<button>', {
         'color': 'white'
      }
      
-}
+}       
 
 )
 var name = student.name;
 var grade = student.grade;
 var course = student.course;
-newName = nameField.append(name);
+newName = nameField.append(name);cd
 newCourse = courseField.append(course);
 newGrade = gradeField.append(grade);
 newButton = 
