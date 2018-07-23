@@ -19,7 +19,7 @@ $(document).ready(initializeApp);
  *  { name: 'Jill', course: 'Comp Sci', grade: 85 }
  * ];
  */
-student_array = [
+var student_array = [
 ];
 
 class studentObj {
@@ -100,6 +100,7 @@ function handleGetDataClick() {
  * @calls clearAddStudentFormInputs, updateStudentList
  */
 function addStudent(){
+    debugger;
     var currentStudent = $('#studentName').val(); //Grabs value from the input fields
     var course = $('#course').val();
     var grade  = $('#studentGrade').val();
@@ -175,7 +176,7 @@ var deleteButton = $('<button>', {
 var name = student.name;
 var grade = student.grade;
 var course = student.course;
-newName = nameField.append(name);cd
+newName = nameField.append(name);
 newCourse = courseField.append(course);
 newGrade = gradeField.append(grade);
 newButton = 
@@ -279,8 +280,7 @@ function addData(student) {
             url: 'https://s-apis.learningfuze.com/sgt/create',
             success: function (response) {
                 console.log(response);
-               // student_array[student_array.length-1].id = response.new_id;
-                debugger;
+                student_array[student_array.length-1].id = response.new_id;
                 },
             error: function () {
                 console.log('error');
@@ -295,17 +295,13 @@ function addData(student) {
  */
 function deleteData(studentId) {
         debugger;
-        // var the_data = {
-        // api_key:'WkA2ZLjZlZ',
-        // id: studentId,
-        // };
         var ajaxOptions = {
-            dataType: 'json',
+            dataType: 'jn',
             data: {
-                api_key:'WkA2ZLjZlZ',
+                api_key:'WkA2ZLjZl111',
                 student_id: studentId,
                 },
-            method: 'POST',
+            method: '',
             url: 'https://s-apis.learningfuze.com/sgt/delete',
             success: function (response) {
                 console.log(response);
@@ -313,7 +309,8 @@ function deleteData(studentId) {
                 console.log(studentId);
                 },
             error: function () {
-                $('errorModal').modal('show');
+                debugger;
+                // $('#errorModal').modal("toggle");
                 console.log('error');
             }
         }
