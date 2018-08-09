@@ -100,7 +100,6 @@ function handleGetDataClick() {
  * @calls clearAddStudentFormInputs, updateStudentList
  */
 function addStudent(){
-    debugger;
     var currentStudent = $('#studentName').val(); //Grabs value from the input fields
     var course = $('#course').val();
     var grade  = $('#studentGrade').val();
@@ -122,7 +121,6 @@ function addStudent(){
  */
 
  function deleteStudent (deleteClick) {
-     debugger;
     rowDeleted  = deleteClick.find('attr', 'row'); // change into a numeric value 
     rowValue = parseInt(rowDeleted.context.attributes[1].nodeValue);
     var deleted = student_array[rowValue];
@@ -236,16 +234,16 @@ function renderGradeAverage(average){
  */
 function getData() {
     var the_data = {
-        api_key:'WkA2ZLjZlZ',
+        action: 'readAll',
         };
         var ajaxOptions = {
             dataType: 'json',
             data: the_data,
-            method: 'POST',
-            url: 'https://s-apis.learningfuze.com/sgt/get',
+            method: 'GET',
+            url: 'data.php',
             success: function (response) {
                 console.log(response);
-                debugger;
+                
                 var responseArray = response.data;
                 console.log(responseArray);
                 student_array = responseArray;
@@ -255,7 +253,7 @@ function getData() {
                 },
             error: function () {
                 $('errorModal').modal('toggle');
-                console.log('error');
+                console.log('Get Data: error');
             }
         }
         $.ajax(ajaxOptions);
@@ -268,22 +266,22 @@ function getData() {
  */
 function addData(student) {
     var the_data = {
-        api_key:'WkA2ZLjZlZ',
+        action: 'insert',
         name: student.name, 
-        course: student.course,
+        course_name: student.course,
         grade: student.grade,
         };
         var ajaxOptions = {
             dataType: 'json',
             data: the_data,
-            method: 'POST',
-            url: 'https://s-apis.learningfuze.com/sgt/create',
+            method: 'GET',
+            url: 'data.php',
             success: function (response) {
                 console.log(response);
                 student_array[student_array.length-1].id = response.new_id;
                 },
             error: function () {
-                console.log('error');
+                console.log('Add Data:error');
             }
         }
         $.ajax(ajaxOptions);
@@ -294,9 +292,8 @@ function addData(student) {
  * 
  */
 function deleteData(studentId) {
-        debugger;
         var ajaxOptions = {
-            dataType: 'jn',
+            dataType: 'json',
             data: {
                 api_key:'WkA2ZLjZl111',
                 student_id: studentId,
@@ -309,9 +306,9 @@ function deleteData(studentId) {
                 console.log(studentId);
                 },
             error: function () {
-                debugger;
+                
                 // $('#errorModal').modal("toggle");
-                console.log('error');
+                console.log('Delete Data:error');
             }
         }
         $.ajax(ajaxOptions);
