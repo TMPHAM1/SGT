@@ -23,8 +23,8 @@ switch( $_GET["action"]
 	case 'insert':
 		include('insert.php');//include the php file insert.php
 		break;
-	// case 'delete':
-	// 	include('delete.php');//include the php file delete.php
+	case 'delete':
+		include('delete.php');//include the php file delete.php
 	// 	break;
 	// case 'update':
 	// 	include('update.php');//include the update.php file;

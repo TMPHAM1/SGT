@@ -79,9 +79,12 @@ function handleCancelClick(){
  * @calls: deleteStudent
  */
 function handleDeleteClick(){
-  console.log("clicked");
-  var deleteClick = $(this);
-  deleteStudent(deleteClick);
+var deleteClick = parseInt(this["id"])
+  var studentDeleted  = student_array[deleteClick];
+  
+  this.closest('tr').remove();
+  student_array.splice(deleteClick, 1);  
+  deleteStudent(studentDeleted);
 
 }
 /***************************************************************************************************
@@ -107,11 +110,11 @@ function addStudent(){
 
 
     var student = new studentObj(currentStudent, course, grade); //Creates new student object
-    addData(student);
+        addData(student);
         student_array.push(student);
          //pushes new student into student array
          updateStudentList(student_array);
-         $('.delete').click(handleDeleteClick);
+         
          
 }
 /***************************************************************************************************
@@ -120,19 +123,10 @@ function addStudent(){
  * @return {undefined}
  */
 
- function deleteStudent (deleteClick) {
-    rowDeleted  = deleteClick.find('attr', 'row'); // change into a numeric value 
-    rowValue = parseInt(rowDeleted.context.attributes[1].nodeValue);
-    var deleted = student_array[rowValue];
-    var deleteId= deleted.id;
-    console.log(deleteId);
-    deleteClick.parent().remove(); 
-    deleteData(deleted); 
-    student_array.splice(rowValue, 1);  
-    deleteData(deleteId);
-
+ function deleteStudent (student) {
+    deleteData(student);
     updateStudentList(student_array);
-    $('.delete').click(handleDeleteClick);
+ 
     // average = calculateGradeAverage(student_array); // calculates grade average of all students
     // renderGradeAverage(average); 
 
@@ -154,16 +148,14 @@ function clearAddStudentFormInputs(){
  */
 function renderStudentOnDom(student, index){
     
-var newRow = $('<tr>', {
-    'row' : ' '+index+'',
-});
+var newRow = $('<tr>')
 var nameField = $('<td>');
 var courseField = $('<td>');
 var gradeField = $('<td>');
 var deleteButton = $('<button>', {
-    'class': "delete btn btn-danger",
-    'text': 'delete',
-    'row' : ' ' + index + '',
+    class: "delete btn btn-danger",
+    text: 'delete',
+    id: ' ' + index+ '',
     css: {
         'color': 'white'
      }
@@ -182,6 +174,7 @@ newRow.append(newName);
 newRow.append(newCourse);
 newRow.append(newGrade);
 newRow.append(deleteButton);
+deleteButton.click(handleDeleteClick);
 $('.student-list tbody').append(newRow);
 }
 
@@ -249,7 +242,7 @@ function getData() {
                 student_array = responseArray;
 
                 updateStudentList(student_array);
-                $('.delete').click(handleDeleteClick);
+               
                 },
             error: function () {
                 $('errorModal').modal('toggle');
@@ -291,19 +284,17 @@ function addData(student) {
  * @returns: {undefined}none
  * 
  */
-function deleteData(studentId) {
+function deleteData(student) {
         var ajaxOptions = {
             dataType: 'json',
             data: {
-                api_key:'WkA2ZLjZl111',
-                student_id: studentId,
+              action: 'delete',
+              id: parseInt(student.id),
                 },
-            method: '',
-            url: 'https://s-apis.learningfuze.com/sgt/delete',
+            method: 'get',
+            url: 'data.php',
             success: function (response) {
-                console.log(response);
-                console.log("removed");
-                console.log(studentId);
+                console.log('someone was removed');
                 },
             error: function () {
                 
