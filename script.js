@@ -22,6 +22,8 @@ $(document).ready(initializeApp);
 var student_array = [
 ];
 
+var editStudentObjID = '';
+
 class studentObj {
     constructor(student, course, grade) {
         this.name = student;
@@ -51,6 +53,7 @@ function addClickHandlersToElements(){
     $('.btn-primary').click(handleAddClicked);
     $('.cancel').click(handleCancelClick);
     $('.get').click(handleGetDataClick);
+    $('#editSubmit').click(handleSubmitEditClick);
    
 }
 
@@ -132,51 +135,29 @@ function addStudent(){
 
  }
  /***************************************************************************************************
- * editStudent - edit students and update object and array
- * @param {undefined} none
- * @return undefined
- * @calls clearAddStudentFormInputs, updateStudentList
- */
-function editStudent(studentObj) {
-    var currentStudent = $('#editstudentName').val(); //Grabs value from the input fields
-    var course = $('#editStudentCourse').val();
-    var grade  = $('#editStudentGrade').val();
-    clearAddStudentFormInputs(); //clears value from input fields
-
-
-    var student = new studentObj(currentStudent, course, grade); //Creates new student object
-        addData(student);
-        student_array.push(student);
-         //pushes new student into student array
-         updateStudentList(student_array);
-         
-         
-}
-
- /***************************************************************************************************
  * handleEditClick - shows the modal for edit window 
  */
 function handleEditClick() {
-    debugger;
     $("#editModal").modal('show');
     var studentObj = student_array[parseInt(this["id"])];
     $('#editStudentName').val(studentObj.name);
     $('#editCourse').val(studentObj.course_name);
     $('#editStudentGrade').val(studentObj.grade);
-    $('#editSubmit').click(handleSubmitEditClick(studentObj));
+       editStudentObjID = studentObj.id
+    
 }
  /***************************************************************************************************
  * handleEditClick - shows the modal for edit window 
  */
-function handleSubmitEditClick(student) {
-   var id = student.id;
+function handleSubmitEditClick() {
+   var id = editStudentObjID;
    var name = $('#editStudentName').val();
    var course_name = $('#editCourse').val();
    var grade = $('#editStudentGrade').val();
    var editStudentObj = new studentObj(name, course_name, grade)
    editStudentObj.id = id;
-   console.log(editStudentObj);
-    // editStudent(StudentObj);
+   console.log(editStudentObj.id);
+   editData(editStudentObj);
 }
 /***************************************************************************************************
  
@@ -232,7 +213,9 @@ newRow.append(deleteButton);
 
 deleteButton.click(handleDeleteClick);
 editButton.click(handleEditClick);
+
 $('.student-list tbody').append(newRow);
+
 }
 
 /***************************************************************************************************
@@ -370,7 +353,7 @@ function editData(student) {
     var ajaxOptions = {
         dataType: 'json',
         data: {
-          action: 'edit',
+          action: 'update',
           id: parseInt(student.id),
           name: student.name,
           grade: student.grade,
@@ -379,7 +362,7 @@ function editData(student) {
         method: 'get',
         url: 'data.php',
         success: function (response) {
-            console.log('someone was removed');
+            console.log('someone has been updated');
             },
         error: function () {
             

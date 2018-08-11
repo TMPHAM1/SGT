@@ -6,27 +6,24 @@ $course_name = `course_name`;
 
 if ($_GET["id"]) {//check if you have all the data you need from the client-side call. 
    $id = $_GET["id"];
-
+}
 else {	//if not, add an appropriate error to errors
 if (empty($_GET["id"])) {
 	$error = "ID information is required";
 	exit();
 }
 if($_GET["name"]) {
-	$name = $_GET["name"]
+	$name = $_GET["name"];
 }
 if($_GET["grade"]) {
-	$grade = $_GET["grade"]
+	$grade = $_GET["grade"];
 }
 if($_GET["course"]) {
-	$course = $_GET["course"]
+	$course_name = $_GET["course"];
 }
-$initialQuery = "UPDATE IGNORE `student_data` SET `name` = $name, `grade`= $grade, `course_name` = $course WHERE `id`= $id"
-
-if (isset($_GET["name"]) {
-	
 }
- ; //write a query that updates the data at the given student ID.  
+$query = "UPDATE `student_data` SET `name` = '$name', `grade`= '$grade', `course_name` = '$course_name' WHERE `id`= $id";
+ //write a query that updates the data at the given student ID.  
 $result = mysqli_query($conn,$query);
 //send the query to the database, store the result of the query into $result
 
@@ -38,7 +35,9 @@ else { //else:
 		$output["success"][] = "true";		//if it did, change output success to true
 	}
 	else {
-		$output["error"][] = "delete error"; //if not, add to the errors: 'update error'
+		$error = mysqli_error($conn);
+		echo $error;
+		$output["error"][] = "update error"; //if not, add to the errors: 'update error'
 	}
 }
 
