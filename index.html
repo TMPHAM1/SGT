@@ -9,7 +9,48 @@
 </head>
 <body>
 <div class="container"> <!-- Try container-fluid-->
-    <!-- <div id="errorModal" class="modal fade" role="dialog">Error</div> -->
+
+<!-- Edit Modal -->
+<div id="editModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <h4>Add Student</h4>
+        <div class="input-group form-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-user "></span>
+            </span>
+            <input type="text" class="form-control" name="StudentName" id="editStudentName" placeholder="Student Name">
+        </div>
+        <div class="input-group form-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-modal-window"></span>
+            </span>
+            <input type="text" class="form-control" name="course" id="editCourse"
+                   placeholder="Student Course">
+        </div>
+        <div class="input-group form-group">
+                <span class="input-group-addon">
+                <span class="glyphicon glyphicon-education"></span>
+            </span>
+            <input type="number" class="form-control" name="studentGrade" id="editStudentGrade"
+                   placeholder="Student Grade">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="editSubmit" type="button" class="btn btn-success" data-dismiss="modal">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>
     <div class="page-header table-responsive table-hover">
         <!-- only show this element when the isnt on mobile -->
         <h1 class="visible-md visible-lg">Student Grade Table

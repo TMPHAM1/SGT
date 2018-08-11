@@ -25,7 +25,7 @@ var student_array = [
 class studentObj {
     constructor(student, course, grade) {
         this.name = student;
-        this.course= course;
+        this.course_name= course;
         this.grade= grade;
     }
 }
@@ -131,7 +131,55 @@ function addStudent(){
     // renderGradeAverage(average); 
 
  }
+ /***************************************************************************************************
+ * editStudent - edit students and update object and array
+ * @param {undefined} none
+ * @return undefined
+ * @calls clearAddStudentFormInputs, updateStudentList
+ */
+function editStudent(studentObj) {
+    var currentStudent = $('#editstudentName').val(); //Grabs value from the input fields
+    var course = $('#editStudentCourse').val();
+    var grade  = $('#editStudentGrade').val();
+    clearAddStudentFormInputs(); //clears value from input fields
+
+
+    var student = new studentObj(currentStudent, course, grade); //Creates new student object
+        addData(student);
+        student_array.push(student);
+         //pushes new student into student array
+         updateStudentList(student_array);
+         
+         
+}
+
+ /***************************************************************************************************
+ * handleEditClick - shows the modal for edit window 
+ */
+function handleEditClick() {
+    debugger;
+    $("#editModal").modal('show');
+    var studentObj = student_array[parseInt(this["id"])];
+    $('#editStudentName').val(studentObj.name);
+    $('#editCourse').val(studentObj.course_name);
+    $('#editStudentGrade').val(studentObj.grade);
+    $('#editSubmit').click(handleSubmitEditClick(studentObj));
+}
+ /***************************************************************************************************
+ * handleEditClick - shows the modal for edit window 
+ */
+function handleSubmitEditClick(student) {
+   var id = student.id;
+   var name = $('#editStudentName').val();
+   var course_name = $('#editCourse').val();
+   var grade = $('#editStudentGrade').val();
+   var editStudentObj = new studentObj(name, course_name, grade)
+   editStudentObj.id = id;
+   console.log(editStudentObj);
+    // editStudent(StudentObj);
+}
 /***************************************************************************************************
+ 
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
 function clearAddStudentFormInputs(){
@@ -153,28 +201,37 @@ var nameField = $('<td>');
 var courseField = $('<td>');
 var gradeField = $('<td>');
 var deleteButton = $('<button>', {
-    class: "delete btn btn-danger",
-    text: 'delete',
+    class: "btn btn-delete btn-danger",
+    text: 'Delete',
     id: ' ' + index+ '',
     css: {
         'color': 'white'
      }
-     
-}       
 
+}       
 )
+var editButton = $('<button>', {
+    class: "btn btn-warning",
+    text: 'Edit',
+    id:' '+index+'',
+    css: {
+        'color':'white'
+    }
+})
 var name = student.name;
 var grade = student.grade;
-var course = student.course;
+var course = student.course_name;
 newName = nameField.append(name);
 newCourse = courseField.append(course);
 newGrade = gradeField.append(grade);
-newButton = 
 newRow.append(newName);
 newRow.append(newCourse);
 newRow.append(newGrade);
+newRow.append(editButton);
 newRow.append(deleteButton);
+
 deleteButton.click(handleDeleteClick);
+editButton.click(handleEditClick);
 $('.student-list tbody').append(newRow);
 }
 
@@ -261,7 +318,7 @@ function addData(student) {
     var the_data = {
         action: 'insert',
         name: student.name, 
-        course_name: student.course,
+        course_name: student.course_name,
         grade: student.grade,
         };
         var ajaxOptions = {
@@ -304,3 +361,31 @@ function deleteData(student) {
         }
         $.ajax(ajaxOptions);
     }
+/***************************************************************************************************
+ *deleteData - deletes from server 
+ * @returns: {undefined}none
+ * 
+ */
+function editData(student) {
+    var ajaxOptions = {
+        dataType: 'json',
+        data: {
+          action: 'edit',
+          id: parseInt(student.id),
+          name: student.name,
+          grade: student.grade,
+          course_name: student.grade,
+            },
+        method: 'get',
+        url: 'data.php',
+        success: function (response) {
+            console.log('someone was removed');
+            },
+        error: function () {
+            
+            // $('#errorModal').modal("toggle");
+            console.log('Delete Data:error');
+        }
+    }
+    $.ajax(ajaxOptions);
+}
