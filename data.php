@@ -1,7 +1,7 @@
 <?php
 
 define('fromData',true);
-
+// echo($_GET);
 if(empty($_GET["action"])){
 	exit('no action specified');
 }

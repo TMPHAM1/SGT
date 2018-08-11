@@ -23,6 +23,7 @@ var student_array = [
 ];
 
 var editStudentObjID = '';
+var editStudentRow = '';
 
 class studentObj {
     constructor(student, course, grade) {
@@ -151,13 +152,18 @@ function handleEditClick() {
  */
 function handleSubmitEditClick() {
    var id = editStudentObjID;
+   debugger;
+  var studentReplaced = student_array.map(function(x) { return x.id}).indexOf(id);
    var name = $('#editStudentName').val();
    var course_name = $('#editCourse').val();
    var grade = $('#editStudentGrade').val();
    var editStudentObj = new studentObj(name, course_name, grade)
    editStudentObj.id = id;
+ 
+   student_array.splice(studentReplaced, 1, editStudentObj);  
    console.log(editStudentObj.id);
    editData(editStudentObj);
+   updateStudentList(student_array);
 }
 /***************************************************************************************************
  
@@ -357,7 +363,7 @@ function editData(student) {
           id: parseInt(student.id),
           name: student.name,
           grade: student.grade,
-          course_name: student.grade,
+          course_name: student.course_name,
             },
         method: 'get',
         url: 'data.php',
