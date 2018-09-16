@@ -8,7 +8,7 @@ if (empty($_GET["id"])) {
 	$error = "ID information is required";
 }
 }
-$query ="DELETE FROM `student_data` WHERE `id` = '$id'";
+$query ="DELETE FROM `students` WHERE `id` = '$id'";
 //write a query that deletes the student by the given student ID  
 $result = mysqli_query($conn,$query);
 //send the query to the database, store the result of the query into $result

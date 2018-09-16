@@ -21,7 +21,7 @@ exit();
 
  
 //write a query that inserts the data into the database.  remember that ID doesn't need to be set as it is auto incrementing
-$query = "INSERT INTO `student_data`(`name`,`grade`,`course_name`) VALUES ('$name', '$grade', '$course')";
+$query = "INSERT INTO `students`(`name`,`grade`,`course_name`) VALUES ('$name', '$grade', '$course')";
 $result = mysqli_query($conn, $query);
 //send the query to the database, store the result of the query into $result
 if (empty($result)) { //check if $result is empty.  

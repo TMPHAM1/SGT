@@ -25,9 +25,10 @@ switch( $_GET["action"]
 		break;
 	case 'delete':
 		include('delete.php');//include the php file delete.php
-	// 	break;
+		break;
 	case 'update':
 		include('update.php');//include the update.php file;
+		break;
 }
 
 //convert the $output variable to json, store the result in $outputJSON

@@ -128,6 +128,7 @@ function addStudent(){
  */
 
  function deleteStudent (student) {
+     console.log(student);
     deleteData(student);
     updateStudentList(student_array);
  
@@ -144,7 +145,10 @@ function handleEditClick() {
     $('#editStudentName').val(studentObj.name);
     $('#editCourse').val(studentObj.course_name);
     $('#editStudentGrade').val(studentObj.grade);
-       editStudentObjID = studentObj.id
+    console.log(studentObj);
+       editStudentObjID = studentObj.ID
+       
+       
     
 }
  /***************************************************************************************************
@@ -153,7 +157,7 @@ function handleEditClick() {
 function handleSubmitEditClick() {
    var id = editStudentObjID;
    debugger;
-  var studentReplaced = student_array.map(function(x) { return x.id}).indexOf(id);
+  var studentReplaced = student_array.map(function(x) { return x.ID}).indexOf(id);
    var name = $('#editStudentName').val();
    var course_name = $('#editCourse').val();
    var grade = $('#editStudentGrade').val();
@@ -192,13 +196,13 @@ var deleteButton = $('<button>', {
     text: 'Delete',
     id: ' ' + index+ '',
     css: {
-        'color': 'white'
+        'color': 'white',
      }
 
 }       
 )
 var editButton = $('<button>', {
-    class: "btn btn-warning",
+    class: "btn btn-warning edit-btn",
     text: 'Edit',
     id:' '+index+'',
     css: {
@@ -232,6 +236,7 @@ $('.student-list tbody').append(newRow);
  */
 function updateStudentList(students){
     $('.student-list tbody').empty();
+    if(students) {
     for(var currentIndex = 0; currentIndex < students.length; currentIndex++) {
      var index = currentIndex;
      var student = students[index];
@@ -239,7 +244,7 @@ function updateStudentList(students){
     }
    var average = calculateGradeAverage(students); // calculates grade average of all students
     renderGradeAverage(average); // appends grade average of all students
-  
+    }
 }
 /***************************************************************************************************
  * calculateGradeAverage - loop through the global student array and calculate average grade and return that value
@@ -335,7 +340,7 @@ function deleteData(student) {
             dataType: 'json',
             data: {
               action: 'delete',
-              id: parseInt(student.id),
+              id: parseInt(student.ID),
                 },
             method: 'get',
             url: 'data.php',
@@ -351,7 +356,7 @@ function deleteData(student) {
         $.ajax(ajaxOptions);
     }
 /***************************************************************************************************
- *deleteData - deletes from server 
+ *editData - Updates and edit from server 
  * @returns: {undefined}none
  * 
  */

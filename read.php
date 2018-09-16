@@ -1,5 +1,5 @@
 <?php
-$query = "SELECT * from `student_data`";
+$query = "SELECT * from `students`";
 //write a query that selects all the students from the database, all the data from each row
 $result = mysqli_query($conn, $query);
 //send the query to the database, store the result of the query into $result
