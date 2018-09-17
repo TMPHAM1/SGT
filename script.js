@@ -32,7 +32,18 @@ class studentObj {
         this.grade= grade;
     }
 }
+/***************************************************************************************************
+* initializeApp 
+* @params {undefined} none
+* @returns: {undefined} none
+* initializes the application, including adding click handlers and pulling in any data from the server, in later versions
+*/
+ function validateFields() {
+     var name = $('#studentName').val();
+     console.log(name) 
+     return true;
 
+ }
 /***************************************************************************************************
 * initializeApp 
 * @params {undefined} none
@@ -69,8 +80,9 @@ function addClickHandlersToElements(){
        none
  */
 function handleAddClicked(){
+    if(validateName()) {
     addStudent();
-    
+    }
 }
 /***************************************************************************************************
  * handleCancelClicked - Event Handler when user clicks the cancel button, should clear out student form
@@ -197,7 +209,6 @@ $("#deleteSubmit").click((event) => {handleDeleteClick(this)});
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
 function clearAddStudentFormInputs(){
-    console.log("studentCleared");
     $("#studentName, #course, #studentGrade").val('');
     $("#studentName").attr("placeholder", "Student Name");
     $("#course").attr("placeholder", "Student Course");
