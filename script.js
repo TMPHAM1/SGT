@@ -40,9 +40,46 @@ class studentObj {
 */
  function validateFields() {
      var name = $('#studentName').val();
-     console.log(name) 
-     return true;
-
+     var grade = $('#studentGrade').val();
+     var course = $('#course').val();
+    console.log(name);
+     var nameReg = /^[a-zA-Z ]+$/;
+     var gradeReg = /^[0-9]+$/;
+     var courseReg = /^[A-Za-z]+[ ]?[0-9]*$/;
+     if(!name) {
+         $('#error-name').text("Please enter a name");
+     }
+     else if (!nameReg.test(name)) {
+        $('#error-name').text("Please enter a valid name");
+     }
+     else {
+         $('#error-name').text('');
+     }
+     if (!grade) {
+        $('#error-grade').text("Please enter a grade");
+     }
+     else if (!gradeReg.test(grade)) {
+        $('#error-grade').text("Please enter a valid grade. Ex. Must be whole digits, 100, 200,");
+     }
+     else if (grade < 0 ) {
+     $('#error-grade').text("Cannot be a negative number")
+     }
+     else 
+        $('#error-grade').text('')
+     if(!course) {
+         $('#error-course').text("Please enter a course");
+     }
+     else if (!courseReg.test(course)) {
+        $('#error-course').text("Please enter a valid course name");
+     }
+     else  
+     $('#error-course').text('');
+     
+   if ($('#error-name').text() === '' &&  $('#error-grade').text() === '' && $('#error-course').text() === '' ) {
+       return true; 
+   } 
+   
+     
  }
 /***************************************************************************************************
 * initializeApp 
@@ -80,8 +117,9 @@ function addClickHandlersToElements(){
        none
  */
 function handleAddClicked(){
-    if(validateName()) {
+    if(validateFields()) {
     addStudent();
+    $('.error').text('');
     }
 }
 /***************************************************************************************************
@@ -213,6 +251,7 @@ function clearAddStudentFormInputs(){
     $("#studentName").attr("placeholder", "Student Name");
     $("#course").attr("placeholder", "Student Course");
     $("#studentGrade").attr("placeholder", "Student Grade");
+    $(".error").text('')
 }
 /***************************************************************************************************
  * renderStudentOnDom - take in a student object, create html elements from the values and then append the elements

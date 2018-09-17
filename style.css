@@ -2,7 +2,10 @@
     margin: 3px;
     display: inline-block;
 }
-
+.error {
+    color: red;
+    font-size: 12px;
+}
 .edit-btn { 
     padding: 6px 21px 6px 21px;
 }
