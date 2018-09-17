@@ -2,6 +2,9 @@
     margin: 3px;
     display: inline-block;
 }
+body { 
+    padding: 3vw;
+}
 .error {
     color: red;
     font-size: 12px;
@@ -42,4 +45,8 @@ div .filter {
 
 td {
     text-align: left;
+}
+
+table {
+    border: 1px black solid;
 }
