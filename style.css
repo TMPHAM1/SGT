@@ -6,3 +6,37 @@
 .edit-btn { 
     padding: 6px 21px 6px 21px;
 }
+div .filter {
+    margin-left: 5px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block; 
+}
+.dropdown-btn {
+    background-color: lightgrey;
+}
+.dropdown-content { 
+    display: none;
+    position: absolute;
+    background-color: #FFFFFF; 
+    color: #000000;  
+    border: 2px black solid; 
+}
+.dropdown-content-item {
+    border:1px black solid;
+    padding: 5px;
+}
+.dropdown-content-item:hover {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.show {
+    display: block; 
+}
+
+td {
+    text-align: left;
+}

@@ -55,6 +55,10 @@ function addClickHandlersToElements(){
     $('.cancel').click(handleCancelClick);
     $('.get').click(handleGetDataClick);
     $('#editSubmit').click(handleSubmitEditClick);
+    $('.filter').click(sortToggle);
+    $('.dropdown-btn').click(displayDropDown);
+    $('.dropdown-content-item').click(applyFilter);
+    
    
 }
 
@@ -82,15 +86,25 @@ function handleCancelClick(){
  * @returns: {undefined}none
  * @calls: deleteStudent
  */
-function handleDeleteClick(){
-var deleteClick = parseInt(this["id"])
+function handleDeleteClick(event){
+    console.log(event);
+    var deleteClick = parseInt(event["id"])
   var studentDeleted  = student_array[deleteClick];
-  
-  this.closest('tr').remove();
+  event.closest('tr').remove();
   student_array.splice(deleteClick, 1);  
   deleteStudent(studentDeleted);
 
 }
+/***************************************************************************************************
+ * handleDeleteClicked - Event Handler when user clicks the delete button
+ * @returns: {undefined}none
+ * @calls: deleteStudent
+ */
+function displayDropDown() {
+    console.log("here"); 
+    $('.dropdown-content').toggle("show");
+    
+    }
 /***************************************************************************************************
  * handleGetDataClicked - Event Handler when user clicks the getData button
  * @returns: {undefined}none
@@ -169,6 +183,15 @@ function handleSubmitEditClick() {
    editData(editStudentObj);
    updateStudentList(student_array);
 }
+/******************************************************************************************************* 
+ * showDeleteModal - shows the delete modal
+ * 
+*/
+function showDeleteModal() { 
+$("#deleteModal").modal('show');
+$("#deleteSubmit").click((event) => {handleDeleteClick(this)});
+
+}
 /***************************************************************************************************
  
  * clearAddStudentForm - clears out the form values based on inputIds variable
@@ -221,7 +244,7 @@ newRow.append(newGrade);
 newRow.append(editButton);
 newRow.append(deleteButton);
 
-deleteButton.click(handleDeleteClick);
+deleteButton.click(showDeleteModal);
 editButton.click(handleEditClick);
 
 $('.student-list tbody').append(newRow);
@@ -245,6 +268,49 @@ function updateStudentList(students){
    var average = calculateGradeAverage(students); // calculates grade average of all students
     renderGradeAverage(average); // appends grade average of all students
     }
+}
+/***************************************************************************************************
+ * sortStudentName - this function changes the student sort from ascending
+ * @param - none 
+ * @returns {undefined} none
+ * @calls renderStudentOnDom, calculateGradeAverage, renderGradeAverage
+ */
+
+ function sortToggle() {
+    var targetSort = this.id
+    console.log(targetSort);
+   arrow = $(`#${targetSort}`);
+ if(arrow.hasClass("glyphicon-chevron-down")) {
+     arrow.removeClass("glyphicon-chevron-down");
+     arrow.addClass("glyphicon-chevron-up");
+     sortData(targetSort, 'DESC');
+     //ASC Low to High 
+ }
+ else {
+    arrow.removeClass("glyphicon-chevron-up");
+    arrow.addClass("glyphicon-chevron-down");
+    sortData(targetSort, 'ASC');
+    //DESC High to Low 
+ }
+    
+ } 
+
+ /***************************************************************************************************
+ * applyFilter - applies filter to set where the filter will be set to toggle ascending or descending order 
+ * @param students {array} the array of student objects
+ * @returns {undefined} none
+ * @calls renderStudentOnDom, calculateGradeAverage, renderGradeAverage
+ */
+
+function applyFilter() {
+    var target = $(this).text().toLowerCase(); 
+    console.log(target);
+    $('.filter').removeClass('glyphicon-chevron-down');
+    $('.filter').removeClass(' glyphicon-chevron-up');
+    $(`#sort-${target}`).addClass('glyphicon-chevron-down')
+    targetSort = 'sort-' + target
+    sortData(targetSort, 'ASC')
+    $('.dropdown-content').toggle("show");
 }
 /***************************************************************************************************
  * calculateGradeAverage - loop through the global student array and calculate average grade and return that value
@@ -286,12 +352,8 @@ function getData() {
             method: 'GET',
             url: 'data.php',
             success: function (response) {
-                console.log(response);
-                
                 var responseArray = response.data;
-                console.log(responseArray);
                 student_array = responseArray;
-
                 updateStudentList(student_array);
                
                 },
@@ -376,10 +438,38 @@ function editData(student) {
             console.log('someone has been updated');
             },
         error: function () {
-            
             // $('#errorModal').modal("toggle");
             console.log('Delete Data:error');
         }
     }
     $.ajax(ajaxOptions);
 }
+/***************************************************************************************************
+ *sortData - sortData and reappends from  server 
+ * @returns: {undefined}none
+ * 
+ */
+
+ function sortData(type, sort) {
+    var ajaxOptions = {
+        dataType: 'json',
+        data: {
+          type: type,
+          sort: sort,
+            },
+        method: 'get',
+        url: 'sort.php',
+        success: function (response) {
+            console.log(response);
+            var responseArray = response.data;
+            student_array = responseArray;
+            updateStudentList(student_array);
+            },
+        error: function () {
+            console.log('Sort Data:error');
+        }
+    }
+    $.ajax(ajaxOptions);
+}
+     
+  
