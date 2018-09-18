@@ -20,7 +20,7 @@ if(empty($result)) {
 			foreach ($row as $key=>$value) {
 			$row["$key"] = stripslashes(html_entity_decode($value)); 
 			}
-			$output['data'][]=$row;//add each row of data to the $output['data'] array
+			$output['data'][]= $row;//add each row of data to the $output['data'] array
 		}
 		
 		}

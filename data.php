@@ -15,6 +15,7 @@ foreach ($_GET as $key=>$value) {
 $output = [
 	'success'=> false, //we assume we will fail
 	'errors'=>[]
+
 ];
 
 switch( $_GET["action"]

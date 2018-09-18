@@ -137,11 +137,11 @@ function handleCancelClick(){
  * @calls: deleteStudent
  */
 function handleDeleteClick(event){
-    console.log(event);
-    var deleteClick = parseInt(event["id"])
+    var deleteClick = parseInt(event["id"]);
   var studentDeleted  = student_array[deleteClick];
   event.closest('tr').remove();
   student_array.splice(deleteClick, 1);  
+  
   deleteStudent(studentDeleted);
 
 }
@@ -192,7 +192,6 @@ function addStudent(){
  */
 
  function deleteStudent (student) {
-     console.log(student);
     deleteData(student);
     updateStudentList(student_array);
  
@@ -210,7 +209,7 @@ function handleEditClick() {
     $('#editCourse').val(studentObj.course_name);
     $('#editStudentGrade').val(studentObj.grade);
     console.log(studentObj);
-       editStudentObjID = studentObj.ID
+       editStudentObjID = studentObj.id
        
        
     
@@ -239,7 +238,8 @@ function handleSubmitEditClick() {
 */
 function showDeleteModal() { 
 $("#deleteModal").modal('show');
-$("#deleteSubmit").click((event) => {handleDeleteClick(this)});
+$("#deleteSubmit").off();
+$("#deleteSubmit").click(() => {handleDeleteClick(this)});
 
 }
 /***************************************************************************************************
@@ -259,7 +259,7 @@ function clearAddStudentFormInputs(){
  * @param {object} studentObj a single student object with course, name, and grade inside
  */
 function renderStudentOnDom(student, index){
-    
+    console.log(student);
 var newRow = $('<tr>')
 var nameField = $('<td>');
 var courseField = $('<td>');
@@ -267,7 +267,7 @@ var gradeField = $('<td>');
 var deleteButton = $('<button>', {
     class: "btn btn-delete btn-danger",
     text: 'Delete',
-    id: ' ' + index+ '',
+    id: ' ' +index+ '',
     css: {
         'color': 'white',
      }
@@ -401,11 +401,17 @@ function getData() {
             data: the_data,
             method: 'GET',
             url: 'data.php',
+            beforeSend: function() { 
+                $('#loader').addClass("loader")
+            },
             success: function (response) {
                 var responseArray = response.data;
                 student_array = responseArray;
                 updateStudentList(student_array);
                
+                },
+                complete: function() {
+                    $('#loader').removeClass("loader")
                 },
             error: function () {
                 $('errorModal').modal('toggle');
@@ -432,10 +438,17 @@ function addData(student) {
             data: the_data,
             method: 'GET',
             url: 'data.php',
+            beforeSend: function() { 
+                $('#loader').addClass("loader")
+            },
             success: function (response) {
-                console.log(response);
-                student_array[student_array.length-1].id = response.new_id;
+                console.log("add Data", response);
+
+                student_array[student_array.length-1].id = response.id;
                 },
+            complete: function() {
+                $('#loader').removeClass("loader")
+            },
             error: function () {
                 console.log('Add Data:error');
             }
@@ -448,16 +461,24 @@ function addData(student) {
  * 
  */
 function deleteData(student) {
+    console.log("being deleted", student)
         var ajaxOptions = {
             dataType: 'json',
             data: {
               action: 'delete',
-              id: parseInt(student.ID),
+              id: parseInt(student.id),
                 },
             method: 'get',
             url: 'data.php',
+            beforeSend: function() { 
+                $('#loader').addClass("loader")
+            },
+            complete: function() {
+                $('#loader').removeClass("loader")
+            },
             success: function (response) {
                 console.log('someone was removed');
+                $("#deleteSubmit").off();
                 },
             error: function () {
                 
@@ -484,8 +505,14 @@ function editData(student) {
             },
         method: 'get',
         url: 'data.php',
+        beforeSend: function() { 
+            $('#loader').addClass("loader")
+        },
         success: function (response) {
             console.log('someone has been updated');
+            },
+            complete: function() {
+                $('#loader').removeClass("loader")
             },
         error: function () {
             // $('#errorModal').modal("toggle");
@@ -509,11 +536,17 @@ function editData(student) {
             },
         method: 'get',
         url: 'sort.php',
+        beforeSend: function() { 
+            $('#loader').addClass("loader")
+        },
         success: function (response) {
             console.log(response);
             var responseArray = response.data;
             student_array = responseArray;
             updateStudentList(student_array);
+            },
+            complete: function() {
+                $('#loader').removeClass("loader")
             },
         error: function () {
             console.log('Sort Data:error');
