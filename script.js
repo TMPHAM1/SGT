@@ -45,7 +45,7 @@ class studentObj {
     console.log(name);
      var nameReg = /^[a-zA-Z ]+$/;
      var gradeReg = /^[0-9]+$/;
-     var courseReg = /^[A-Za-z]+[ ]?[0-9]*$/;
+     var courseReg = /^[A-Za-z 0-9]*$/;
      if(!name) {
          $('#error-name').text("Please enter a name");
      }

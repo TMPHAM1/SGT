@@ -1,6 +1,8 @@
 <?php 
 require_once('mysql_connect.php');
-
+foreach ($_GET as $key => $value) {
+    $_GET["$key"] = $value;
+}
 $output = [
 	'success'=> false, //we assume we will fail
 	'errors'=>[]

@@ -15,8 +15,12 @@ if(empty($result)) {
 	else {
 		if(mysqli_num_rows($result) > 0) {//check if any data came back
 		$output['success'] = true; 		//if it did, change output success to true
-		while ($row = mysqli_fetch_assoc($result))	{	//do a while loop to collect all the data 
-		$output['data'][]=$row;//add each row of data to the $output['data'] array
+		while ($row = mysqli_fetch_assoc($result))	{	
+			//do a while loop to collect all the data 
+			foreach ($row as $key=>$value) {
+			$row["$key"] = stripslashes(html_entity_decode($value)); 
+			}
+			$output['data'][]=$row;//add each row of data to the $output['data'] array
 		}
 		
 		}

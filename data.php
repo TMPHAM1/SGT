@@ -1,10 +1,14 @@
 <?php
+require('mysql_connect.php');
 // echo($_GET);
 if(empty($_GET["action"])){
 	exit('no action specified');
 }
+foreach ($_GET as $key=>$value) {
+	$_GET["$key"] = mysqli_real_escape_string($conn, addslashes(htmlentities($value)));
+}
 
-require('mysql_connect.php');
+
 //require the mysql_connect.php file.  Make sure your properly configured it!
 
 
