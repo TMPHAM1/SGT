@@ -22,14 +22,15 @@ $(document).ready(initializeApp);
 var student_array = [
 ];
 
-var editStudentObjID = '';
-var editStudentRow = '';
+// var editStudentObjID = '';
+// var editStudentRow = '';
 
 class studentObj {
-    constructor(student, course, grade) {
+    constructor(student, course, grade, id) {
         this.name = student;
         this.course_name= course;
         this.grade= grade;
+        this.id = id;
     }
 }
 /***************************************************************************************************
@@ -42,7 +43,6 @@ class studentObj {
      var name = $('#studentName').val();
      var grade = $('#studentGrade').val();
      var course = $('#course').val();
-    console.log(name);
      var nameReg = /^[a-zA-Z ]+$/;
      var gradeReg = /^[0-9]+$/;
      var courseReg = /^[A-Za-z 0-9]*$/;
@@ -102,7 +102,7 @@ function addClickHandlersToElements(){
     $('.btn-primary').click(handleAddClicked);
     $('.cancel').click(handleCancelClick);
     $('.get').click(handleGetDataClick);
-    $('#editSubmit').click(handleSubmitEditClick);
+   
     $('.filter').click(sortToggle);
     $('.dropdown-btn').click(displayDropDown);
     $('.dropdown-content-item').click(applyFilter);
@@ -151,7 +151,6 @@ function handleDeleteClick(event){
  * @calls: deleteStudent
  */
 function displayDropDown() {
-    console.log("here"); 
     $('.dropdown-content').toggle("show");
     
     }
@@ -175,13 +174,8 @@ function addStudent(){
     var course = $('#course').val();
     var grade  = $('#studentGrade').val();
     clearAddStudentFormInputs(); //clears value from input fields
-
-
-    var student = new studentObj(currentStudent, course, grade); //Creates new student object
-        addData(student);
-        student_array.push(student);
-         //pushes new student into student array
-         updateStudentList(student_array);
+    addData(currentStudent, course, grade);
+ 
          
          
 }
@@ -208,8 +202,10 @@ function handleEditClick() {
     $('#editStudentName').val(studentObj.name);
     $('#editCourse').val(studentObj.course_name);
     $('#editStudentGrade').val(studentObj.grade);
-    console.log(studentObj);
-       editStudentObjID = studentObj.id
+    $('#editSubmit').off();
+    $('#editSubmit').click( () => {handleSubmitEditClick(studentObj)
+    });
+      
        
        
     
@@ -217,18 +213,20 @@ function handleEditClick() {
  /***************************************************************************************************
  * handleEditClick - shows the modal for edit window 
  */
-function handleSubmitEditClick() {
-   var id = editStudentObjID;
-   debugger;
-  var studentReplaced = student_array.map(function(x) { return x.ID}).indexOf(id);
-   var name = $('#editStudentName').val();
-   var course_name = $('#editCourse').val();
-   var grade = $('#editStudentGrade').val();
-   var editStudentObj = new studentObj(name, course_name, grade)
+function handleSubmitEditClick(student) {
+   var id = student.id
+
+
+  var studentReplaced = student_array.map(function(x) { return x.id}).indexOf(id);
+  var name = $('#editStudentName').val();
+  console.log(name)
+  var course_name = $('#editCourse').val();
+  var grade = $('#editStudentGrade').val();
+   var editStudentObj = new studentObj(name, course_name, grade, id)
+   console.log(editStudentObj)
    editStudentObj.id = id;
  
    student_array.splice(studentReplaced, 1, editStudentObj);  
-   console.log(editStudentObj.id);
    editData(editStudentObj);
    updateStudentList(student_array);
 }
@@ -259,7 +257,6 @@ function clearAddStudentFormInputs(){
  * @param {object} studentObj a single student object with course, name, and grade inside
  */
 function renderStudentOnDom(student, index){
-    console.log(student);
 var newRow = $('<tr>')
 var nameField = $('<td>');
 var courseField = $('<td>');
@@ -328,7 +325,6 @@ function updateStudentList(students){
 
  function sortToggle() {
     var targetSort = this.id
-    console.log(targetSort);
    arrow = $(`#${targetSort}`);
  if(arrow.hasClass("glyphicon-chevron-down")) {
      arrow.removeClass("glyphicon-chevron-down");
@@ -354,7 +350,6 @@ function updateStudentList(students){
 
 function applyFilter() {
     var target = $(this).text().toLowerCase(); 
-    console.log(target);
     $('.filter').removeClass('glyphicon-chevron-down');
     $('.filter').removeClass(' glyphicon-chevron-up');
     $(`#sort-${target}`).addClass('glyphicon-chevron-down')
@@ -406,7 +401,9 @@ function getData() {
             },
             success: function (response) {
                 var responseArray = response.data;
+                console.log(response);
                 student_array = responseArray;
+                console.log(student_array);
                 updateStudentList(student_array);
                
                 },
@@ -414,8 +411,7 @@ function getData() {
                     $('#loader').removeClass("loader")
                 },
             error: function () {
-                $('errorModal').modal('toggle');
-                console.log('Get Data: error');
+                $('#errorModal').modal('show');
             }
         }
         $.ajax(ajaxOptions);
@@ -426,12 +422,12 @@ function getData() {
  * @returns: {undefined}none
  * 
  */
-function addData(student) {
+function addData(student_name, course_name, course_grade) {
     var the_data = {
         action: 'insert',
-        name: student.name, 
-        course_name: student.course_name,
-        grade: student.grade,
+        name: student_name, 
+        course_name: course_name,
+        grade: course_grade,
         };
         var ajaxOptions = {
             dataType: 'json',
@@ -442,15 +438,18 @@ function addData(student) {
                 $('#loader').addClass("loader")
             },
             success: function (response) {
-                console.log("add Data", response);
-
+                var id = response.id
+                var student = new studentObj(student_name, course_name, course_grade, id); //Creates new student object
+                student_array.push(student);
+                 //pushes new student into student array
+                 updateStudentList(student_array);
                 student_array[student_array.length-1].id = response.id;
                 },
             complete: function() {
                 $('#loader').removeClass("loader")
             },
             error: function () {
-                console.log('Add Data:error');
+                $('#errorModal').modal('show');
             }
         }
         $.ajax(ajaxOptions);
@@ -461,7 +460,6 @@ function addData(student) {
  * 
  */
 function deleteData(student) {
-    console.log("being deleted", student)
         var ajaxOptions = {
             dataType: 'json',
             data: {
@@ -477,13 +475,12 @@ function deleteData(student) {
                 $('#loader').removeClass("loader")
             },
             success: function (response) {
-                console.log('someone was removed');
                 $("#deleteSubmit").off();
                 },
             error: function () {
                 
                 // $('#errorModal').modal("toggle");
-                console.log('Delete Data:error');
+                $('#errorModal').modal('show');
             }
         }
         $.ajax(ajaxOptions);
@@ -509,14 +506,13 @@ function editData(student) {
             $('#loader').addClass("loader")
         },
         success: function (response) {
-            console.log('someone has been updated');
+
             },
             complete: function() {
                 $('#loader').removeClass("loader")
             },
         error: function () {
-            // $('#errorModal').modal("toggle");
-            console.log('Delete Data:error');
+            $('#errorModal').modal('show');
         }
     }
     $.ajax(ajaxOptions);
@@ -540,7 +536,6 @@ function editData(student) {
             $('#loader').addClass("loader")
         },
         success: function (response) {
-            console.log(response);
             var responseArray = response.data;
             student_array = responseArray;
             updateStudentList(student_array);
@@ -549,7 +544,7 @@ function editData(student) {
                 $('#loader').removeClass("loader")
             },
         error: function () {
-            console.log('Sort Data:error');
+            $('#errorModal').modal('show');
         }
     }
     $.ajax(ajaxOptions);

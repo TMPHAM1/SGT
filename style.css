@@ -14,6 +14,7 @@ body {
 }
 div .filter {
     margin-left: 5px;
+    display:block;
 }
 
 .dropdown {
@@ -46,7 +47,10 @@ div .filter {
 td {
     text-align: left;
 }
-
+th {
+    text-align: center;
+    font-size: 2vh;
+}
 table {
     border: 1px black solid;
 }
@@ -69,6 +73,7 @@ table {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
 @media only screen and (max-width: 1000px) {
    .loader {left: 25%; 
     transform: translate(-50%,-50%);
