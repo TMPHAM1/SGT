@@ -161,6 +161,8 @@ function displayDropDown() {
  */
 function handleGetDataClick() {
     getData();
+    $('.filter').removeClass('glyphicon-chevron-down');
+    $('.filter').removeClass(' glyphicon-chevron-up');
 }
 
 /***************************************************************************************************
