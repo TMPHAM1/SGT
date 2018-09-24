@@ -2,8 +2,16 @@
     margin: 3px;
     display: inline-block;
 }
+.container {
+    border: 2px black solid;
+    padding: 0;
+    margin: 0;
+}
 body { 
-    padding: 3vw;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
 }
 .error {
     color: red;
@@ -13,16 +21,20 @@ body {
     padding: 6px 21px 6px 21px;
 }
 div .filter {
-    margin-left: 5px;
-    display:block;
+    /* margin-left: 2px; */
+    
+    display: inline;
+    
 }
 
 .dropdown {
-    position: relative;
+    margin-bottom: 0;
     display: inline-block; 
+
 }
 .dropdown-btn {
     background-color: lightgrey;
+
 }
 .dropdown-content { 
     display: none;
@@ -44,13 +56,8 @@ div .filter {
     display: block; 
 }
 
-td {
-    text-align: left;
-}
-th {
-    text-align: center;
-    font-size: 2vh;
-}
+
+
 table {
     border: 1px black solid;
 }
@@ -86,4 +93,16 @@ table {
      transform: translate(-20%,-20%);
      top: 90%;
     }
+}
+
+.header-border {
+    border-top: 16px solid #5cb85c;
+    background-color: #5cb85d;
+    border-bottom: 16px solid #5cb85c;
+    height: 10vh;
+    display: block;
+}
+.note {
+    color: red;
+    font-size: 10px;
 }

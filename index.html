@@ -10,6 +10,7 @@
 </head>
 <body>
 <div class="container"> <!-- Try container-fluid-->
+    <div class="header-border"></div>
 <div id="loader"></div>
 <!-- Edit Modal -->
 <div id="editModal" class="modal fade" role="dialog">
@@ -139,10 +140,10 @@
             <thead>
             <tr>
                 <th class="title-th" >Student Name<div id="sort-name" class="glyphicon filter"></div></th>
-                <th class="title-th"> Student Course<div id="sort-course"class="glyphicon filter"></div></th>
-                <th class="title-th">Student Grade<div id="sort-grade" class="glyphicon filter "></div></th>
+                <th>Student Course<div id="sort-course"class="glyphicon filter"></div></th>
+                <th>Student Grade<div id="sort-grade" class="glyphicon filter "></div></th>
                 <th><div class="dropdown"> 
-                        <button class="dropdown-btn">Filter</button>
+                        <button class=" pull-right dropdown-btn">Filter</button>
                         <div class="dropdown-content">
                             <div id="drop-name"class="dropdown-content-item">Name</div>
                             <div id="drop-course"class="dropdown-content-item">Course</div>
@@ -155,6 +156,7 @@
             <tbody>
             </tbody>
         </table>
+        <div class="note">*Default: Sorted by last student added</div>
     </div>
 </div>
 </body>
