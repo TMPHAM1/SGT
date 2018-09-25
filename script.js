@@ -22,27 +22,27 @@ $(document).ready(initializeApp);
 var student_array = [
 ];
 
-var editStudentObjID = '';
-var editStudentRow = '';
+// var editStudentObjID = '';
+// var editStudentRow = '';
 
 class studentObj {
-    constructor(student, course, grade) {
+    constructor(student, course, grade, id) {
         this.name = student;
         this.course_name= course;
         this.grade= grade;
+        this.id = id;
     }
 }
 /***************************************************************************************************
-* initializeApp 
+* validateField
 * @params {undefined} none
 * @returns: {undefined} none
-* initializes the application, including adding click handlers and pulling in any data from the server, in later versions
+* does a check to see if the correct format is inputed for all of the fields required(name, course, grade);
 */
  function validateFields() {
      var name = $('#studentName').val();
      var grade = $('#studentGrade').val();
      var course = $('#course').val();
-    console.log(name);
      var nameReg = /^[a-zA-Z ]+$/;
      var gradeReg = /^[0-9]+$/;
      var courseReg = /^[A-Za-z 0-9]*$/;
@@ -81,6 +81,221 @@ class studentObj {
    
      
  }
+ /***************************************************************************************************
+* validateEditField
+* @params {undefined} none
+* @returns: {undefined} none
+* does a check to see if the correct format is inputed for all of the fields required(name, course, grade);
+*/
+function validateEditFields() {
+    var name = $('#editStudentName').val();
+    var grade = $('#editStudentGrade').val();
+    var course = $('#editCourse').val();
+    var nameReg = /^[a-zA-Z ]+$/;
+    var gradeReg = /^[0-9]+$/;
+    var courseReg = /^[A-Za-z 0-9]*$/;
+    if(!name) {
+        $('#error-edit-name').text("Please enter a name");
+    }
+    else if (!nameReg.test(name)) {
+       $('#error-edit-name').text("Please enter a valid name");
+    }
+    else {
+        $('#error-edit-name').text('');
+    }
+    if (!grade) {
+       $('#error-edit-grade').text("Please enter a grade");
+    }
+    else if (!gradeReg.test(grade)) {
+       $('#error-edit-grade').text("Please enter a valid grade. Ex. Must be whole digits, 100, 200,");
+    }
+    else if (grade < 0 ) {
+    $('#error-edit-grade').text("Cannot be a negative number")
+    }
+    else 
+       $('#error-edit-grade').text('')
+    if(!course) {
+        $('#error-edit-course').text("Please enter a course");
+    }
+    else if (!courseReg.test(course)) {
+       $('#error-edit-course').text("Please enter a valid course name");
+    }
+    else  
+    $('#error-edit-course').text('');
+    
+  if ($('#error-edit-name').text() === '' &&  $('#error-edit-grade').text() === '' && $('#error-edit-course').text() === '' ) {
+      return true; 
+  } 
+  
+    
+}
+ /***************************************************************************************************
+* validateField[name]
+* @params {undefined} none
+* @returns: {undefined} none
+* does a check to see if the correct format is inputed for all of the fields required(name, course, grade);
+*/
+function validateName() {
+var name = $('#studentName').val();
+var nameReg = /^[a-zA-Z ]+$/;
+if (!nameReg.test(name)) {
+    $('#error-name').text("Please enter a valid name");
+    $('.validateName').removeClass("has-success");
+    $('.validateName').addClass("has-error");
+ }
+ else {
+    $('#error-name').text('');
+    $('.validateName').removeClass("has-error");
+    $('.validateName').addClass("has-success")
+ }
+ if (name === "") {
+    $('#error-name').text("")
+    $('.validateName').removeClass("has-error");
+    $('.validateName').removeClass("has-success");
+ }
+ 
+}
+ /***************************************************************************************************
+  *  /***************************************************************************************************
+* validateField[name]
+* @params {undefined} none
+* @returns: {undefined} none
+* does a check to see if the correct format is inputed for all of the fields required(name, course, grade);
+*/
+function validateEditName() {
+var name = $('#editStudentName').val();
+var nameReg = /^[a-zA-Z ]+$/;
+if (!nameReg.test(name)) {
+    $('#error-edit-name').text("Please enter a valid name");
+    $('.validateEditName').removeClass("has-success");
+    $('.validateEditName').addClass("has-error");
+ }
+ else {
+    $('#error-edit-name').text('');
+    $('.validateEditName').removeClass("has-error");
+    $('.validateEditName').addClass("has-success")
+ }
+ if (name === "") {
+    $('#error-edit-name').text("")
+    $('.validateEditName').removeClass("has-error");
+    $('.validateEditName').removeClass("has-success");
+ }
+ 
+}
+ /***************************************************************************************************
+* validateField[coursename]
+* @params {undefined} none
+* @returns: {undefined} none
+* does a check to see if the correct format is inputed for all of the course;
+*/
+function validateCourse() {
+    var course = $('#course').val();
+    var courseReg = /^[A-Za-z 0-9]*$/;
+    if (!courseReg.test(course)) {
+        $('#error-course').text("Please enter a valid Course Name");
+        $('.validateCourse').removeClass("has-success");
+        $('.validateCourse').addClass("has-error");
+     }
+     else {
+        $('#error-course').text('');
+        $('.validateCourse').removeClass("has-error");
+        $('.validateCourse').addClass("has-success")
+     }
+     if (course === "") {
+        $('#error-course').text("")
+        $('.validateCourse').removeClass("has-error");
+        $('.validateCourse' ).removeClass("has-success");
+     }
+     
+    }
+    /***************************************************************************************************
+* validateEditField[coursename]
+* @params {undefined} none
+* @returns: {undefined} none
+* does a check to see if the correct format is inputed for all of the course;
+*/
+function validateEditCourse() {
+    var course = $('#editCourse').val();
+    var courseReg = /^[A-Za-z 0-9]*$/;
+    if (!courseReg.test(course)) {
+        $('#error-edit-course').text("Please enter a valid Course Name");
+        $('.validateEditCourse').removeClass("has-success");
+        $('.validateEditCourse').addClass("has-error");
+     }
+     else {
+        $('#error-edit-course').text('');
+        $('.validateEditCourse').removeClass("has-error");
+        $('.validateEditCourse').addClass("has-success")
+     }
+     if (course === "") {
+        $('#error-edit-course').text("")
+        $('.validateEditCourse').removeClass("has-error");
+        $('.validateEditCourse' ).removeClass("has-success");
+     }
+     
+    }
+ /***************************************************************************************************
+* validateField[grade]
+* @params {undefined} none
+* @returns: {undefined} none
+* does a check to see if the correct format is inputed for all of the course;
+*/
+function validateGrade() {
+    var grade = $('#studentGrade').val();
+    var gradeReg = /^[0-9]+$/;
+    if (!gradeReg.test(grade)) {
+        $('#error-grade').text("Please enter a valid Grade");
+        $('.validateGrade').removeClass("has-success");
+        $('.validateGrade').addClass("has-error");
+     }
+     else if (grade < 0) {
+        $('#error-grade').text("Grade must be greater then 0");
+        $('.validateGrade').removeClass("has-success");
+        $('.validateGrade').addClass("has-error");
+     }
+     else {
+        $('#error-grade').text('');
+        $('.validateGrade').removeClass("has-error");
+        $('.validateGrade').addClass("has-success")
+     }
+     if (grade === "") {
+        $('#error-grade').text("")
+        $('.validateGrade').removeClass("has-error");
+        $('.validateGrade').removeClass("has-success");
+     }
+     
+    }
+    /***************************************************************************************************
+* validateField[grade]
+* @params {undefined} none
+* @returns: {undefined} none
+* does a check to see if the correct format is inputed for all of the course;
+*/
+function validateGrade() {
+    var grade = $('#editStudentGrade').val();
+    var gradeReg = /^[0-9]+$/;
+    if (!gradeReg.test(grade)) {
+        $('#error-edit-grade').text("Please enter a valid Grade");
+        $('.validateEditGrade').removeClass("has-success");
+        $('.validateEditGrade').addClass("has-error");
+     }
+     else if (grade < 0) {
+        $('#error-edit-grade').text("Grade must be greater then 0");
+        $('.validateEditGrade').removeClass("has-success");
+        $('.validateEditGrade').addClass("has-error");
+     }
+     else {
+        $('#error-edit-grade').text('');
+        $('.validateEditGrade').removeClass("has-error");
+        $('.validateEditGrade').addClass("has-success")
+     }
+     if (grade === "") {
+        $('#error-edit-grade').text("")
+        $('.validateEditGrade').removeClass("has-error");
+        $('.validateEditGrade').removeClass("has-success");
+     }
+     
+    }
 /***************************************************************************************************
 * initializeApp 
 * @params {undefined} none
@@ -96,13 +311,19 @@ function initializeApp(){
 * addClickHandlerstoElements
 * @params {undefined} 
 * @returns  {undefined}
-*     
+* applies click handlers when the applicaiton is started. 
 */
 function addClickHandlersToElements(){
     $('.btn-primary').click(handleAddClicked);
     $('.cancel').click(handleCancelClick);
     $('.get').click(handleGetDataClick);
-    $('#editSubmit').click(handleSubmitEditClick);
+    $('#studentName').keyup(validateName);
+    $('#studentGrade').keyup(validateGrade);
+    $('#course').keyup(validateCourse);
+    $('#editStudentName').keyup(validateEditName);
+    $('#editStudentGrade').keyup(validateGrade);
+    $('#editCourse').keyup(validateEditCourse);
+
     $('.filter').click(sortToggle);
     $('.dropdown-btn').click(displayDropDown);
     $('.dropdown-content-item').click(applyFilter);
@@ -120,6 +341,7 @@ function handleAddClicked(){
     if(validateFields()) {
     addStudent();
     $('.error').text('');
+    $('.input-group').removeClass("has-success");
     }
 }
 /***************************************************************************************************
@@ -151,7 +373,6 @@ function handleDeleteClick(event){
  * @calls: deleteStudent
  */
 function displayDropDown() {
-    console.log("here"); 
     $('.dropdown-content').toggle("show");
     
     }
@@ -162,6 +383,8 @@ function displayDropDown() {
  */
 function handleGetDataClick() {
     getData();
+    $('.filter').removeClass('glyphicon-chevron-down');
+    $('.filter').removeClass(' glyphicon-chevron-up');
 }
 
 /***************************************************************************************************
@@ -175,13 +398,8 @@ function addStudent(){
     var course = $('#course').val();
     var grade  = $('#studentGrade').val();
     clearAddStudentFormInputs(); //clears value from input fields
-
-
-    var student = new studentObj(currentStudent, course, grade); //Creates new student object
-        addData(student);
-        student_array.push(student);
-         //pushes new student into student array
-         updateStudentList(student_array);
+    addData(currentStudent, course, grade);
+ 
          
          
 }
@@ -205,11 +423,17 @@ function addStudent(){
 function handleEditClick() {
     $("#editModal").modal('show');
     var studentObj = student_array[parseInt(this["id"])];
+    $('.edit-validate').removeClass('has-success');
+    $('.edit-validate').removeClass('has-error');
+    $('.error-edit').text('');
     $('#editStudentName').val(studentObj.name);
     $('#editCourse').val(studentObj.course_name);
     $('#editStudentGrade').val(studentObj.grade);
-    console.log(studentObj);
-       editStudentObjID = studentObj.id
+    $('#editSubmit').off();
+    $('#editSubmit').click( () => {
+        handleSubmitEditClick(studentObj) 
+    });
+      
        
        
     
@@ -217,20 +441,26 @@ function handleEditClick() {
  /***************************************************************************************************
  * handleEditClick - shows the modal for edit window 
  */
-function handleSubmitEditClick() {
-   var id = editStudentObjID;
-   debugger;
-  var studentReplaced = student_array.map(function(x) { return x.ID}).indexOf(id);
-   var name = $('#editStudentName').val();
-   var course_name = $('#editCourse').val();
-   var grade = $('#editStudentGrade').val();
-   var editStudentObj = new studentObj(name, course_name, grade)
+function handleSubmitEditClick(student) {
+    console.log(validateEditFields())
+    if(validateEditFields()) {
+   var id = student.id
+
+
+  var studentReplaced = student_array.map(function(x) { return x.id}).indexOf(id);
+  var name = $('#editStudentName').val();
+  console.log(name)
+  var course_name = $('#editCourse').val();
+  var grade = $('#editStudentGrade').val();
+   var editStudentObj = new studentObj(name, course_name, grade, id)
+   console.log(editStudentObj)
    editStudentObj.id = id;
  
    student_array.splice(studentReplaced, 1, editStudentObj);  
-   console.log(editStudentObj.id);
    editData(editStudentObj);
    updateStudentList(student_array);
+   $('#editModal').modal("hide");
+    }
 }
 /******************************************************************************************************* 
  * showDeleteModal - shows the delete modal
@@ -251,6 +481,8 @@ function clearAddStudentFormInputs(){
     $("#studentName").attr("placeholder", "Student Name");
     $("#course").attr("placeholder", "Student Course");
     $("#studentGrade").attr("placeholder", "Student Grade");
+    $('.input-group').removeClass("has-success");
+    $('.input-group').removeClass("has-error");
     $(".error").text('')
 }
 /***************************************************************************************************
@@ -259,7 +491,6 @@ function clearAddStudentFormInputs(){
  * @param {object} studentObj a single student object with course, name, and grade inside
  */
 function renderStudentOnDom(student, index){
-    console.log(student);
 var newRow = $('<tr>')
 var nameField = $('<td>');
 var courseField = $('<td>');
@@ -328,7 +559,6 @@ function updateStudentList(students){
 
  function sortToggle() {
     var targetSort = this.id
-    console.log(targetSort);
    arrow = $(`#${targetSort}`);
  if(arrow.hasClass("glyphicon-chevron-down")) {
      arrow.removeClass("glyphicon-chevron-down");
@@ -357,9 +587,16 @@ function applyFilter() {
     console.log(target);
     $('.filter').removeClass('glyphicon-chevron-down');
     $('.filter').removeClass(' glyphicon-chevron-up');
+    if(target === "clear") {
+        $('.filter-on').removeClass("glyphicon-filter")
+        $('.dropdown-content').toggle("show")
+        getData();
+        return; 
+    }
     $(`#sort-${target}`).addClass('glyphicon-chevron-down')
     targetSort = 'sort-' + target
     sortData(targetSort, 'ASC')
+     $('.filter-on').addClass("glyphicon-filter")   
     $('.dropdown-content').toggle("show");
 }
 /***************************************************************************************************
@@ -406,7 +643,9 @@ function getData() {
             },
             success: function (response) {
                 var responseArray = response.data;
+                console.log(response);
                 student_array = responseArray;
+                console.log(student_array);
                 updateStudentList(student_array);
                
                 },
@@ -414,8 +653,7 @@ function getData() {
                     $('#loader').removeClass("loader")
                 },
             error: function () {
-                $('errorModal').modal('toggle');
-                console.log('Get Data: error');
+                $('#errorModal').modal('show');
             }
         }
         $.ajax(ajaxOptions);
@@ -426,12 +664,12 @@ function getData() {
  * @returns: {undefined}none
  * 
  */
-function addData(student) {
+function addData(student_name, course_name, course_grade) {
     var the_data = {
         action: 'insert',
-        name: student.name, 
-        course_name: student.course_name,
-        grade: student.grade,
+        name: student_name, 
+        course_name: course_name,
+        grade: course_grade,
         };
         var ajaxOptions = {
             dataType: 'json',
@@ -442,15 +680,18 @@ function addData(student) {
                 $('#loader').addClass("loader")
             },
             success: function (response) {
-                console.log("add Data", response);
-
+                var id = response.id
+                var student = new studentObj(student_name, course_name, course_grade, id); //Creates new student object
+                student_array.push(student);
+                 //pushes new student into student array
+                 updateStudentList(student_array);
                 student_array[student_array.length-1].id = response.id;
                 },
             complete: function() {
                 $('#loader').removeClass("loader")
             },
             error: function () {
-                console.log('Add Data:error');
+                $('#errorModal').modal('show');
             }
         }
         $.ajax(ajaxOptions);
@@ -461,7 +702,6 @@ function addData(student) {
  * 
  */
 function deleteData(student) {
-    console.log("being deleted", student)
         var ajaxOptions = {
             dataType: 'json',
             data: {
@@ -477,13 +717,12 @@ function deleteData(student) {
                 $('#loader').removeClass("loader")
             },
             success: function (response) {
-                console.log('someone was removed');
                 $("#deleteSubmit").off();
                 },
             error: function () {
                 
                 // $('#errorModal').modal("toggle");
-                console.log('Delete Data:error');
+                $('#errorModal').modal('show');
             }
         }
         $.ajax(ajaxOptions);
@@ -509,14 +748,13 @@ function editData(student) {
             $('#loader').addClass("loader")
         },
         success: function (response) {
-            console.log('someone has been updated');
+
             },
             complete: function() {
                 $('#loader').removeClass("loader")
             },
         error: function () {
-            // $('#errorModal').modal("toggle");
-            console.log('Delete Data:error');
+            $('#errorModal').modal('show');
         }
     }
     $.ajax(ajaxOptions);
@@ -540,7 +778,6 @@ function editData(student) {
             $('#loader').addClass("loader")
         },
         success: function (response) {
-            console.log(response);
             var responseArray = response.data;
             student_array = responseArray;
             updateStudentList(student_array);
@@ -549,7 +786,7 @@ function editData(student) {
                 $('#loader').removeClass("loader")
             },
         error: function () {
-            console.log('Sort Data:error');
+            $('#errorModal').modal('show');
         }
     }
     $.ajax(ajaxOptions);

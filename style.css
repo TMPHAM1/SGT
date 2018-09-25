@@ -2,8 +2,16 @@
     margin: 3px;
     display: inline-block;
 }
+.container {
+    border: 2px black solid;
+    padding: 5px;
+    margin: 0;
+}
 body { 
-    padding: 3vw;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
 }
 .error {
     color: red;
@@ -12,16 +20,24 @@ body {
 .edit-btn { 
     padding: 6px 21px 6px 21px;
 }
+.page-header { 
+    padding: 10px;
+}
 div .filter {
-    margin-left: 5px;
+    /* margin-left: 2px; */
+    
+    display: inline;
+    
 }
 
 .dropdown {
-    position: relative;
+    margin-bottom: 0;
     display: inline-block; 
+
 }
 .dropdown-btn {
     background-color: lightgrey;
+
 }
 .dropdown-content { 
     display: none;
@@ -43,9 +59,10 @@ div .filter {
     display: block; 
 }
 
-td {
-    text-align: left;
+div>.student-add-form { 
+    z-index: 2;
 }
+
 
 table {
     border: 1px black solid;
@@ -63,12 +80,13 @@ table {
     transform: translate(-50%,-50%);
     top: 40%;
     z-index: 0;
-    opacity: 0.7;
+    opacity: 0.5;
    }
    @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
 @media only screen and (max-width: 1000px) {
    .loader {left: 25%; 
     transform: translate(-50%,-50%);
@@ -77,8 +95,21 @@ table {
 
 }
 @media only screen and (max-width: 541px) {
-    .loader {left:15%; 
-     transform: translate(-20%,-20%);
-     top: 90%;
+    .loader {left:13%; 
+     transform: translate(-13%,-13%);
+     top: 30%;
+     position: fixed;
     }
+}
+
+.header-border {
+    border-top: 16px solid #5cb85c;
+    background-color: #5cb85d;
+    border-bottom: 16px solid #5cb85c;
+    height: 10vh;
+    display: block;
+}
+.note {
+    color: red;
+    font-size: 10px;
 }
