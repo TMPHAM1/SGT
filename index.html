@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 <body>
+
 <div class="container"> <!-- Try container-fluid-->
     <div class="header-border"></div>
 <div id="loader"></div>
@@ -24,29 +25,32 @@
       </div>
       <div class="modal-body">
         <h4>Edit Student</h4>
-        <div class="input-group form-group">
+        <div class="input-group validateEditName edit-validate form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-user "></span>
             </span>
             <input type="text" class="form-control" name="StudentName" id="editStudentName" placeholder="Student Name">
         </div>
-        <div class="input-group form-group">
+        <p id="error-edit-name" class="error error-edit text-center"></p>
+        <div class="input-group validateEditCourse edit-validate form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-modal-window"></span>
             </span>
             <input type="text" class="form-control" name="course" id="editCourse"
                    placeholder="Student Course">
         </div>
-        <div class="input-group form-group">
+        <p id="error-edit-course" class="error error-edit text-center"></p>
+        <div class="input-group validateEditGrade  edit-validate form-group">
                 <span class="input-group-addon">
                 <span class="glyphicon glyphicon-education"></span>
             </span>
             <input type="number" class="form-control" name="studentGrade" id="editStudentGrade"
                    placeholder="Student Grade">
         </div>
+        <p id="error-edit-grade" class="error error-edit text-center"></p>
       </div>
       <div class="modal-footer">
-        <button id="editSubmit" type="button" class="btn btn-success" data-dismiss="modal">Submit</button>
+        <button id="editSubmit" type="button" class="btn btn-success">Submit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>
@@ -105,9 +109,9 @@
         </h3>
         <p class="pull-right visible-sm visible-xs">Grade Average : <span class="avgGrade label label-default">0</span></p>
     </div>
-    <div class="student-add-form center-block pull-right col-md-4 input-group">
+    <div class="student-add-form center-block pull-right col-md-4 input-group" style="z-index:1">
         <h4 class="center">Add Student</h4>
-        <div class="input-group  form-group">
+        <div class="input-group  validateName form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-user "></span>
             </span>
@@ -115,7 +119,7 @@
            
         </div>
         <p id="error-name" class="error text-center"></p>
-        <div class="input-group form-group">
+        <div class="input-group validateCourse form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-modal-window"></span>
             </span>
@@ -123,7 +127,7 @@
                    placeholder="Student Course">
         </div>
         <p id="error-course" class="error text-center"></p>
-        <div class="input-group form-group">
+        <div class="input-group validateGrade form-group">
                 <span class="input-group-addon">
                 <span class="glyphicon glyphicon-education"></span>
             </span>
@@ -132,8 +136,19 @@
         </div>
         <p id="error-grade" class="error text-center"></p>
         <button type="submit" class="btn-primary  submit btn btn-success">Add</button>
-        <button type="button" class="btn btn-default cancel" onclick="">Cancel</button>
-        <button type="button" class="btn get btn-default" onclick="">Refresh Student List</button>
+        <button type="button" class="btn btn-default cancel" >Cancel</button>
+        <button type="button" class="btn get btn-default">Refresh Student List</button>
+        <ul class="list-group directions">
+            <li class="list-group-item ">
+                <p>For <b>Student Name</b>, may use any letter from the alphabet must be at least 2 letters</p>
+            </li>
+            <li class="list-group-item">
+                <p>For <b>Student Course</b>, may use any alphanumerical character</p>
+            </li>
+            <li class="list-group-item">
+                <p>For <b>Grade</b>, Must be any number greater then 0 and whole numbers only</p>
+            </li>
+        </ul>
     </div>
     <div class="student-list-container col-md-8">
         <table class="student-list  table table-responsive">
@@ -143,14 +158,19 @@
                 <th>Student Course<div id="sort-course"class="glyphicon filter"></div></th>
                 <th>Student Grade<div id="sort-grade" class="glyphicon filter "></div></th>
                 <th><div class="dropdown"> 
-                        <button class=" pull-right dropdown-btn">Filter</button>
+                        <button class=" pull-right dropdown-btn">Filter<div class="glyphicon filter-on"></div></button>
+                        
                         <div class="dropdown-content">
                             <div id="drop-name"class="dropdown-content-item">Name</div>
                             <div id="drop-course"class="dropdown-content-item">Course</div>
                             <div id="drop-grade"class="dropdown-content-item">Grade</div>
+                            <div id="drop-grade"class="dropdown-content-item">Clear</div>
+                            
                         </div>
                 </div>
+                
                 </th>
+                
             </tr>
             </thead>
             <tbody>

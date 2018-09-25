@@ -4,7 +4,7 @@
 }
 .container {
     border: 2px black solid;
-    padding: 0;
+    padding: 5px;
     margin: 0;
 }
 body { 
@@ -19,6 +19,9 @@ body {
 }
 .edit-btn { 
     padding: 6px 21px 6px 21px;
+}
+.page-header { 
+    padding: 10px;
 }
 div .filter {
     /* margin-left: 2px; */
@@ -56,6 +59,9 @@ div .filter {
     display: block; 
 }
 
+div>.student-add-form { 
+    z-index: 2;
+}
 
 
 table {
@@ -74,7 +80,7 @@ table {
     transform: translate(-50%,-50%);
     top: 40%;
     z-index: 0;
-    opacity: 0.7;
+    opacity: 0.5;
    }
    @keyframes spin {
     0% { transform: rotate(0deg); }
@@ -89,9 +95,10 @@ table {
 
 }
 @media only screen and (max-width: 541px) {
-    .loader {left:15%; 
-     transform: translate(-20%,-20%);
-     top: 90%;
+    .loader {left:13%; 
+     transform: translate(-13%,-13%);
+     top: 30%;
+     position: fixed;
     }
 }
 
