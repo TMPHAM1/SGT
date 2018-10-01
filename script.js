@@ -6,7 +6,6 @@
  * Listen for the document to load and initialize the application
  */
 $(document).ready(initializeApp);
-
 /**
  * Define all global variables here.  
  */
@@ -799,7 +798,6 @@ function editData(student) {
 // function resize() {
 // var $window = $(window),
 // $form = $(".student-add-form");
-
 // $(window).on('resize', function () {
 // if ($window.width() < 991) {
 //   console.log(window.innerWidth);
