@@ -305,6 +305,7 @@ function validateGrade() {
 function initializeApp(){
     addClickHandlersToElements();
     getData();  
+    resize();
 }
 
 /***************************************************************************************************
@@ -643,11 +644,15 @@ function getData() {
             },
             success: function (response) {
                 var responseArray = response.data;
-                console.log(response);
+
+                if(response.data) {
                 student_array = responseArray;
-                console.log(student_array);
+            }
+                else {
+                    student_array = [];
+                }
                 updateStudentList(student_array);
-               
+                   
                 },
                 complete: function() {
                     $('#loader').removeClass("loader")
@@ -791,5 +796,20 @@ function editData(student) {
     }
     $.ajax(ajaxOptions);
 }
-     
-  
+function resize() {
+var $window = $(window),
+$form = $(".student-add-form");
+
+$(window).on('resize', function () {
+if ($window.width() < 991) {
+  console.log(window.innerWidth);
+  $form.removeClass('pull-right');
+if(992 < $window.width() < 1001 ) {
+    $form.removeClass('pull-right');
+    $form.addClass('pull-left');
+}
+}else{
+
+$form.addClass('pull-right')};
+}); 
+}
