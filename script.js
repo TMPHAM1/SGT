@@ -804,12 +804,13 @@ $(window).on('resize', function () {
 if ($window.width() < 991) {
   console.log(window.innerWidth);
   $form.removeClass('pull-right');
+  $form.removeClass('pull-left');
 if(992 < $window.width() < 1001 ) {
     $form.removeClass('pull-right');
     $form.addClass('pull-left');
 }
 }else{
-
 $form.addClass('pull-right')};
+$form.removeClass('pull-left');
 }); 
 }
