@@ -1,3 +1,9 @@
+html {
+    height: 90%
+}
+.form-control {
+    width: 100% !important;
+}
 .btn { 
     margin: 3px;
     display: inline-block;
@@ -6,12 +12,15 @@
     border: 2px black solid;
     padding: 5px;
     margin: 0;
+    height: 100%
+ 
 }
 body { 
     padding: 0;
     margin: 0;
     display: flex;
     justify-content: center;
+   
 }
 .error {
     color: red;
@@ -29,7 +38,9 @@ div .filter {
     display: inline;
     
 }
-
+.input-group {
+    width: 100%
+}
 .dropdown {
     margin-bottom: 0;
     display: inline-block; 
@@ -112,4 +123,61 @@ table {
 .note {
     color: red;
     font-size: 10px;
+}
+/*----- iPad ---------*/
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .container {
+        padding-bottom: 33% !important;
+        }
+        .student-list-container {
+            width: 100%;
+        }
+}
+/*----- iPad Pro ---*/
+@media only screen 
+  and (min-device-width: 1024px) 
+  and (max-device-width: 1366px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+    .container {
+    padding-bottom: 19% !important;
+    }
+    .student-list-container {
+        width: 100%;
+    }
+}
+@media only screen 
+  and (min-device-width: 1024px) 
+  and (max-device-width: 1366px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+    .container {
+    padding-bottom: 54% !important;
+    }
+    .student-list-container {
+        width: 100%;
+    }
+}
+
+/* ----- iPhone 4 & 5 *-------*/
+@media only screen and (-webkit-min-device-pixel-ratio : 2) and (device-aspect-ratio: 2/3) {
+    .student-add-form {   
+        padding-left: 15px !important;
+        padding-right: 15px !important;}
+    .page-header { 
+        padding-left: 15px !important;
+    }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio : 2) and (device-aspect-ratio: 40/71) {
+    .student-add-form {   
+        padding-right: 15px !important;
+        padding-left: 15px !important;}
+    .page-header { 
+        padding-left: 15px !important;
+    }
 }
