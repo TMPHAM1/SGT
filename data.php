@@ -36,7 +36,7 @@ switch( $_GET["action"]
 
 //convert the $output variable to json, store the result in $outputJSON
 $outputJSON = json_encode($output);
-//print $outputJSON
+
 print($outputJSON);
 //end
 

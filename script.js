@@ -304,7 +304,6 @@ function validateGrade() {
 function initializeApp(){
     addClickHandlersToElements();
     getData();  
-    resize();
 }
 
 /***************************************************************************************************

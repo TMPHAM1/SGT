@@ -16,7 +16,6 @@ $grade = $_GET["grade"];
 
 $query = "UPDATE `students` SET `name` = '$name', `grade`= '$grade', `course_name` = '$course_name' WHERE `id`= $id";
  //write a query that updates the data at the given student ID.  
- print($query);
 $result = mysqli_query($conn,$query);
 //send the query to the database, store the result of the query into $result
 
