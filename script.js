@@ -636,7 +636,7 @@ function getData() {
             dataType: 'json',
             data: the_data,
             method: 'GET',
-            url: 'data.php',
+            url: 'api/data.php',
             beforeSend: function() { 
                 $('#loader').addClass("loader")
             },
@@ -679,7 +679,7 @@ function addData(student_name, course_name, course_grade) {
             dataType: 'json',
             data: the_data,
             method: 'GET',
-            url: 'data.php',
+            url: 'api/data.php',
             beforeSend: function() { 
                 $('#loader').addClass("loader")
             },
@@ -713,7 +713,7 @@ function deleteData(student) {
               id: parseInt(student.id),
                 },
             method: 'get',
-            url: 'data.php',
+            url: 'api/data.php',
             beforeSend: function() { 
                 $('#loader').addClass("loader")
             },
@@ -747,7 +747,7 @@ function editData(student) {
           course_name: student.course_name,
             },
         method: 'get',
-        url: 'data.php',
+        url: 'api/data.php',
         beforeSend: function() { 
             $('#loader').addClass("loader")
         },
@@ -777,7 +777,7 @@ function editData(student) {
           sort: sort,
             },
         method: 'get',
-        url: 'sort.php',
+        url: 'api/sort.php',
         beforeSend: function() { 
             $('#loader').addClass("loader")
         },
