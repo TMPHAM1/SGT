@@ -642,7 +642,6 @@ function getData() {
             },
             success: function (response) {
                 var responseArray = response.data;
-
                 if(response.data) {
                 student_array = responseArray;
             }
@@ -652,10 +651,12 @@ function getData() {
                 updateStudentList(student_array);
                    
                 },
-                complete: function() {
+                complete: function(response) {
+                    console.log('THIS HAS BEEN completed', response)
                     $('#loader').removeClass("loader")
                 },
-            error: function () {
+            error: function (err) {
+                console.log('THIS IS ERROR', err);
                 $('#errorModal').modal('show');
             }
         }
