@@ -636,7 +636,7 @@ function getData() {
             dataType: 'json',
             data: the_data,
             method: 'GET',
-            url: 'http://localhost/api/data.php',
+            url: 'api/data.php',
             beforeSend: function() { 
                 $('#loader').addClass("loader")
             },
