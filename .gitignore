@@ -2,3 +2,5 @@
 .idea
 README.md
 .env
+cacert.pem
+api/etag.txt

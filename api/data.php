@@ -1,6 +1,12 @@
-<?php
-require('mysql_connect.php');
-// echo($_GET);
+
+<?php 
+	require('mysql_connect.php');
+
+	header("Access-Control-Allow-Origin: *");
+	header("Access-Control-Allow-Methods: POST");
+	header("Access-Control-Allow-Headers: Origin, Methods, Content-Type");
+
+
 if(empty($_GET["action"])){
 	exit('no action specified');
 }

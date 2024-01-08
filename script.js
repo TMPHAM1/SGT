@@ -636,11 +636,11 @@ function getData() {
             dataType: 'json',
             data: the_data,
             method: 'GET',
-            url: 'api/data.php',
+            url: 'http://localhost/api/data.php',
             beforeSend: function() { 
                 $('#loader').addClass("loader")
             },
-            success: function (response) {
+            success: function (response) {  
                 var responseArray = response.data;
                 if(response.data) {
                 student_array = responseArray;
@@ -655,8 +655,7 @@ function getData() {
                     console.log('THIS HAS BEEN completed', response)
                     $('#loader').removeClass("loader")
                 },
-            error: function (err) {
-                console.log('THIS IS ERROR', err);
+            error: function () {
                 $('#errorModal').modal('show');
             }
         }
